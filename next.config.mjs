@@ -9,4 +9,4 @@ const nextConfig = {
   // other configurations...
 };
 
-export default withPlugins([withTM], nextConfig);
+export default withPlugins([withTM()], nextConfig);
