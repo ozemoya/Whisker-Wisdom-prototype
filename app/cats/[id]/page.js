@@ -2,9 +2,22 @@ import Image from "next/image";
 import Link from "next/link";
 import Navbar from "@/components/Navbar";
 import { notFound } from 'next/navigation';
- // Adjust the path as necessary
 
 const url = "https://api.thecatapi.com/v1/breeds";
+
+// Function to fetch all cat data
+export async function getCats() {
+  const response = await fetch(url);
+  const data = await response.json();
+  return data;
+}
+
+// Function to fetch a specific cat by ID
+export async function getCatById(id) {
+  const response = await fetch(`${url}/${id}`);
+  const data = await response.json();
+  return data;
+}
 
 export async function generateStaticParams() {
   const cats = await getCats(); // Fetch all cat data
@@ -43,35 +56,3 @@ export default async function CatPage({ params }) {
     </div>
   );
 }
-
-const getSingleCat = async (id) => {
-  try {
-    const response = await fetch(`${url}/${id}`);
-    const data = await response.json();
-    return data;
-  } catch (error) {
-    console.error(error);
-    return {};
-  }
-};
-
-const SingleCatPage = async ({ params }) => {
-  const data = await getSingleCat(params.id);
-  const title = data?.name;
-  const imgSrc = data?.reference_image_id;
-  const description = data?.description;
-  const temperament = data?.temperament;
-  const adaptability = data?.adaptability;
-
-  // Define backup images
-
-  return (
-    <div>
-      <h1>{title}</h1>
-      <img src={imgSrc || backupImages[0]} alt={title} />
-      <p>{description}</p>
-      <p>Temperament: {temperament}</p>
-      <p>Adaptability: {adaptability}</p>
-    </div>
-  );
-};
