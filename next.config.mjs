@@ -6,6 +6,7 @@ const nextConfig = {
   reactStrictMode: true,
   images: {
     domains: ['cdn2.thecatapi.com'],
+    unoptimized: true,
   },
   // other configurations...
 };
