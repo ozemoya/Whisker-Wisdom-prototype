@@ -1,3 +1,38 @@
+// pages/cats/[id].js
+
+import { useRouter } from 'next/router';
+import { getCats, getCatById } from '../../lib/cats'; // Example data fetching functions
+
+export async function generateStaticParams() {
+  const cats = await getCats(); // Fetch all cat data
+  return cats.map(cat => ({
+    id: cat.id.toString(), // Ensure the id is a string
+  }));
+}
+
+export async function getStaticProps({ params }) {
+  const cat = await getCatById(params.id); // Fetch cat data by id
+  return {
+    props: {
+      cat,
+    },
+  };
+}
+
+export default function CatPage({ cat }) {
+  const router = useRouter();
+  if (router.isFallback) {
+    return <div>Loading...</div>;
+  }
+
+  return (
+    <div>
+      <h1>{cat.name}</h1>
+      <p>{cat.description}</p>
+    </div>
+  );
+}
+
 const url = "https://api.thecatapi.com/v1/breeds";
 import Image from "next/image";
 import Link from "next/link";
@@ -70,5 +105,3 @@ const SingleCatPage = async ({ params }) => {
       </div>
     );
 };
-
-export default SingleCatPage;
