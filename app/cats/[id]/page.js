@@ -1,38 +1,3 @@
-// pages/cats/[id].js
-
-import { useRouter } from 'next/router';
-import { getCats, getCatById } from '../../lib/cats'; // Example data fetching functions
-
-export async function generateStaticParams() {
-  const cats = await getCats(); // Fetch all cat data
-  return cats.map(cat => ({
-    id: cat.id.toString(), // Ensure the id is a string
-  }));
-}
-
-export async function getStaticProps({ params }) {
-  const cat = await getCatById(params.id); // Fetch cat data by id
-  return {
-    props: {
-      cat,
-    },
-  };
-}
-
-export default function CatPage({ cat }) {
-  const router = useRouter();
-  if (router.isFallback) {
-    return <div>Loading...</div>;
-  }
-
-  return (
-    <div>
-      <h1>{cat.name}</h1>
-      <p>{cat.description}</p>
-    </div>
-  );
-}
-
 const url = "https://api.thecatapi.com/v1/breeds";
 import Image from "next/image";
 import Link from "next/link";
@@ -50,47 +15,6 @@ const getSingleCat = async (id) => {
   }
 };
 
-
-import { notFound } from 'next/navigation';
-import { getCats, getCatById } from '../../../lib/cats'; // Adjust the path as necessary
-
-export async function generateStaticParams() {
-  const cats = await getCats(); // Fetch all cat data
-  return cats.map(cat => ({
-    id: cat.id.toString(), // Ensure the id is a string
-  }));
-}
-
-export async function generateMetadata({ params }) {
-  const cat = await getCatById(params.id);
-  if (!cat) {
-    return {
-      title: 'Cat Not Found',
-    };
-  }
-  return {
-    title: cat.name,
-  };
-}
-
-export default async function CatPage({ params }) {
-  const cat = await getCatById(params.id);
-  if (!cat) {
-    notFound();
-  }
-
-  return (
-    <div>
-      <h1>{cat.name}</h1>
-      <p>{cat.description}</p>
-      {cat.image ? (
-        <img src={cat.image} alt={cat.name} />
-      ) : (
-        <p>No image available</p>
-      )}
-    </div>
-  );
-}
 
 const SingleCatPage = async ({ params }) => {
   const data = await getSingleCat(params.id);
@@ -146,3 +70,5 @@ const SingleCatPage = async ({ params }) => {
       </div>
     );
 };
+
+export default SingleCatPage;
