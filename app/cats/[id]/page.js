@@ -2,7 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import Navbar from "@/components/Navbar";
 import { notFound } from 'next/navigation';
-import { getCats, getCatById } from '../../../lib/cats'; // Adjust the path as necessary
+ // Adjust the path as necessary
 
 const url = "https://api.thecatapi.com/v1/breeds";
 
