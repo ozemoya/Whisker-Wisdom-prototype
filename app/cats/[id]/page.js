@@ -63,43 +63,15 @@ const SingleCatPage = async ({ params }) => {
   const temperament = data?.temperament;
   const adaptability = data?.adaptability;
 
-  const backupImages = [
-    bengalcat,
-    DevonRex,
-    EuropeanBurmese,
-    Korat,
-    malayancat,
-  ];
+  // Define backup images
 
   return (
-    <div className="bg-gradient-orange w-full">
-      <Navbar />
-      <div className="hero bg-base-200 w-full">
-        <div className="hero-content flex-col lg:flex-row bg-none min-h-screen flex w-full items-center justify-center px-4 lg:px-8">
-          <section className="flex flex-col items-start justify-start gap-5 w-full max-w-4xl mx-auto ">
-            <h1 className="text-3xl font-bold mb-4">{title || "Cat not found"}</h1>
-            <p>Origin: {origin}</p>
-            <p>{description}</p>
-            <p>{temperament}</p>
-            <p>Adaptablity: {adaptability}</p>
-            <p>Life Span: {life_span}</p>
-          </section>
-
-          {imgSrc ? (
-            <Image
-              src={`https://cdn2.thecatapi.com/images/${imgSrc}.jpg`}
-              width={300}
-              height={427}
-              className="rounded mb-4"
-              alt={title}
-            />
-          ) : (
-            <p>No image available</p>
-          )}
-        </div>
-      </div>
+    <div>
+      <h1>{title}</h1>
+      <img src={imgSrc || backupImages[0]} alt={title} />
+      <p>{description}</p>
+      <p>Temperament: {temperament}</p>
+      <p>Adaptability: {adaptability}</p>
     </div>
   );
-}
-
-export { SingleCatPage };
+};
