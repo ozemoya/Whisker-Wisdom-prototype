@@ -51,6 +51,47 @@ const getSingleCat = async (id) => {
 };
 
 
+import { notFound } from 'next/navigation';
+import { getCats, getCatById } from '../../../lib/cats'; // Adjust the path as necessary
+
+export async function generateStaticParams() {
+  const cats = await getCats(); // Fetch all cat data
+  return cats.map(cat => ({
+    id: cat.id.toString(), // Ensure the id is a string
+  }));
+}
+
+export async function generateMetadata({ params }) {
+  const cat = await getCatById(params.id);
+  if (!cat) {
+    return {
+      title: 'Cat Not Found',
+    };
+  }
+  return {
+    title: cat.name,
+  };
+}
+
+export default async function CatPage({ params }) {
+  const cat = await getCatById(params.id);
+  if (!cat) {
+    notFound();
+  }
+
+  return (
+    <div>
+      <h1>{cat.name}</h1>
+      <p>{cat.description}</p>
+      {cat.image ? (
+        <img src={cat.image} alt={cat.name} />
+      ) : (
+        <p>No image available</p>
+      )}
+    </div>
+  );
+}
+
 const SingleCatPage = async ({ params }) => {
   const data = await getSingleCat(params.id);
   const title = data?.name;
