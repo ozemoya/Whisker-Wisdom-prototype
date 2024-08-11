@@ -1,0 +1,20 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --foreground-rgb: 0, 0, 0;
+  --gradient-start: #FDBA74; /* Orange 200 */
+  --gradient-middle: #FB923C; /* Orange 300 */
+  --gradient-end: #F97316; /* Orange 400 */
+}
+
+body {
+  color: rgb(var(--foreground-rgb));
+  background: linear-gradient(to top right, var(--gradient-start), var(--gradient-middle), var(--gradient-end));
+}
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+}
