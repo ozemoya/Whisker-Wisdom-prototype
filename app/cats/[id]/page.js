@@ -2,7 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import Navbar from "@/components/Navbar";
 import { notFound } from 'next/navigation';
- // Adjust the path as necessary
+import { getCats, getCatById } from '../../../lib/cats'; // Adjust the path as necessary
 
 const url = "https://api.thecatapi.com/v1/breeds";
 
@@ -25,7 +25,7 @@ export async function generateMetadata({ params }) {
   };
 }
 
-export async function CatPage({ params }) {
+export default async function CatPage({ params }) {
   const cat = await getCatById(params.id);
   if (!cat) {
     notFound();
@@ -55,7 +55,7 @@ const getSingleCat = async (id) => {
   }
 };
 
-export async function SingleCatPage({ params }) {
+const SingleCatPage = async ({ params }) => {
   const data = await getSingleCat(params.id);
   const title = data?.name;
   const imgSrc = data?.reference_image_id;
@@ -102,4 +102,4 @@ export async function SingleCatPage({ params }) {
   );
 }
 
-export default SingleCatPage;
+export { SingleCatPage };
